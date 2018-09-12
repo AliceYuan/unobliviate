@@ -3,16 +3,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/root"
     tools:context=".MainActivity">
 
     <TextView
         android:id="@+id/flashcard_question"
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:background="#50A6C2"
+        android:background="#b9deff"
         android:gravity="center"
         android:text="Who is the 44th President of the United States?"
-        android:textColor="#ffffff"
         android:textSize="40sp" />
 
     <TextView
@@ -24,4 +24,40 @@
         android:text="Barack Obama"
         android:textSize="40sp"
         android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/option_1"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_below="@id/flashcard_question"
+        android:layout_margin="10dp"
+        android:background="#ffdab9"
+        android:gravity="center"
+        android:text="Bill Clinton"
+        android:textColor="#4c4ca6"
+        android:textSize="30sp" />
+
+    <TextView
+        android:id="@+id/option_2"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_below="@id/option_1"
+        android:layout_margin="10dp"
+        android:background="#ffdab9"
+        android:gravity="center"
+        android:text="George H. W. Bush"
+        android:textColor="#4c4ca6"
+        android:textSize="30sp" />
+
+    <TextView
+        android:id="@+id/option_3"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_below="@id/option_2"
+        android:layout_margin="10dp"
+        android:background="#ffdab9"
+        android:gravity="center"
+        android:text="Barack Obama"
+        android:textColor="#4c4ca6"
+        android:textSize="30sp" />
 </RelativeLayout>
