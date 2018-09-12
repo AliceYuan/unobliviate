@@ -28,7 +28,7 @@
     <TextView
         android:id="@+id/option_1"
         android:layout_width="match_parent"
-        android:layout_height="70dp"
+        android:layout_height="50dp"
         android:layout_below="@id/flashcard_question"
         android:layout_margin="10dp"
         android:background="#ffdab9"
@@ -40,7 +40,7 @@
     <TextView
         android:id="@+id/option_2"
         android:layout_width="match_parent"
-        android:layout_height="70dp"
+        android:layout_height="50dp"
         android:layout_below="@id/option_1"
         android:layout_margin="10dp"
         android:background="#ffdab9"
@@ -52,7 +52,7 @@
     <TextView
         android:id="@+id/option_3"
         android:layout_width="match_parent"
-        android:layout_height="70dp"
+        android:layout_height="50dp"
         android:layout_below="@id/option_2"
         android:layout_margin="10dp"
         android:background="#ffdab9"
@@ -60,4 +60,13 @@
         android:text="Barack Obama"
         android:textColor="#4c4ca6"
         android:textSize="30sp" />
+
+    <ImageView
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:id="@+id/toggle_choices_visibility"
+        android:layout_margin="10dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerInParent="true"
+        android:src="@drawable/hide_icon"/>
 </RelativeLayout>
