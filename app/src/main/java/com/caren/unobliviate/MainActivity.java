@@ -7,6 +7,7 @@ import android.view.View;
 public class MainActivity extends AppCompatActivity {
 
     private View questionSideView;
+    private View answerSideView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -14,12 +15,21 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         questionSideView = findViewById(R.id.flashcard_question);
+        answerSideView = findViewById(R.id.flashcard_answer);
 
         questionSideView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 questionSideView.setVisibility(View.GONE);
-                findViewById(R.id.flashcard_answer).setVisibility(View.VISIBLE);
+                answerSideView.setVisibility(View.VISIBLE);
+            }
+        });
+
+        answerSideView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                answerSideView.setVisibility(View.GONE);
+                questionSideView.setVisibility(View.VISIBLE);
             }
         });
     }
