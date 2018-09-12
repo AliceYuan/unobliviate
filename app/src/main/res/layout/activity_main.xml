@@ -6,7 +6,7 @@
     tools:context=".MainActivity">
 
     <TextView
-        android:id="@+id/flashcard"
+        android:id="@+id/flashcard_question"
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:gravity="center"

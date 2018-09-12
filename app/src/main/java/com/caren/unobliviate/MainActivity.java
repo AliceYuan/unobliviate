@@ -6,19 +6,19 @@ import android.view.View;
 
 public class MainActivity extends AppCompatActivity {
 
-    private View answerSideView;
+    private View questionSideView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        answerSideView = findViewById(R.id.flashcard);
+        questionSideView = findViewById(R.id.flashcard_question);
 
-        answerSideView.setOnClickListener(new View.OnClickListener() {
+        questionSideView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                answerSideView.setVisibility(View.GONE);
+                questionSideView.setVisibility(View.GONE);
                 findViewById(R.id.flashcard_answer).setVisibility(View.VISIBLE);
             }
         });
