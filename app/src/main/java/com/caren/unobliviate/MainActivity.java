@@ -1,6 +1,7 @@
 package com.caren.unobliviate;
 
 import android.content.Intent;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -50,6 +51,11 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == ADD_CARD_REQUEST_CODE && resultCode == RESULT_OK) {
+            Snackbar.make(questionSideView,
+                    "Card successfully created",
+                    Snackbar.LENGTH_SHORT)
+                    .show();
+
             String question = data.getExtras().getString("question");
             String answer = data.getExtras().getString("answer");
 
