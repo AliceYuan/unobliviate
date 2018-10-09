@@ -17,6 +17,12 @@ public class AddCardActivity extends AppCompatActivity {
 
         flashcardDatabase = new FlashcardDatabase(this);
 
+        String question = getIntent().getStringExtra("question");
+        String answer = getIntent().getStringExtra("answer");
+
+        ((EditText) findViewById(R.id.questionTextField)).setText(question);
+        ((EditText) findViewById(R.id.answerTextField)).setText(answer);
+
         findViewById(R.id.cancelBtn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -36,8 +42,7 @@ public class AddCardActivity extends AppCompatActivity {
                 setResult(RESULT_OK, data); // set result code and bundle data for response
 
                 // save the values in the database
-                flashcardDatabase.insertCard(new Flashcard(question, answer));
-                
+
                 finish(); // closes the activity, pass data to parent
             }
         });
