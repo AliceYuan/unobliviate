@@ -13,6 +13,12 @@ public class AddCardActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_card);
 
+        String question = getIntent().getStringExtra("question");
+        String answer = getIntent().getStringExtra("answer");
+
+        ((EditText) findViewById(R.id.questionTextField)).setText(question);
+        ((EditText) findViewById(R.id.answerTextField)).setText(answer);
+
         findViewById(R.id.cancelBtn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
