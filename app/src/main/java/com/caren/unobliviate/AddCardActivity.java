@@ -1,9 +1,8 @@
 package com.caren.unobliviate;
 
 import android.content.Intent;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -33,6 +32,10 @@ public class AddCardActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String enteredQuestion = ((EditText) findViewById(R.id.questionTextField)).getText().toString();
                 String enteredAnswer = ((EditText) findViewById(R.id.answerTextField)).getText().toString();
+                String enteredWrongAnswer1 = ((EditText) findViewById(R.id.answerTextField2))
+                        .getText().toString();
+                String enteredWrongAnswer2 = ((EditText) findViewById(R.id.answerTextField3))
+                        .getText().toString();
 
                 if (enteredAnswer.isEmpty() || enteredQuestion.isEmpty()) {
                     Toast.makeText(AddCardActivity.this,
@@ -46,6 +49,8 @@ public class AddCardActivity extends AppCompatActivity {
                 // Pass relevant data back as a result
                 data.putExtra("question", enteredQuestion);
                 data.putExtra("answer", enteredAnswer);
+                data.putExtra("wronganswer1", enteredWrongAnswer1);
+                data.putExtra("wronganswer2", enteredWrongAnswer2);
                 setResult(RESULT_OK, data); // set result code and bundle data for response
                 finish(); // closes the activity, pass data to parent
             }

@@ -59,8 +59,16 @@ public class MainActivity extends AppCompatActivity {
             String question = data.getExtras().getString("question");
             String answer = data.getExtras().getString("answer");
 
+            String wrongAnswer1 = data.getExtras().getString("wronganswer1");
+            String wrongAnswer2 = data.getExtras().getString("wronganswer2");
+
             ((TextView) findViewById(R.id.flashcard_question)).setText(question);
             ((TextView) findViewById(R.id.flashcard_answer)).setText(answer);
+
+            ((TextView) findViewById(R.id.answer_choice_1)).setText(wrongAnswer1);
+            ((TextView) findViewById(R.id.answer_choice_2)).setText(wrongAnswer2);
+            ((TextView) findViewById(R.id.answer_choice_3)).setText(answer);
+
         }
     }
 }
