@@ -1,8 +1,11 @@
 package com.caren.unobliviate;
 
+import android.arch.persistence.room.Room;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -31,6 +34,20 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent myIntent = new Intent(MainActivity.this, AddCardActivity.class);
                 MainActivity.this.startActivityForResult(myIntent, ADD_CARD_REQUEST_CODE);
+            }
+        });
+
+        AsyncTask.execute(new Runnable() {
+            @Override
+            public void run() {
+                AppDatabase db = Room.databaseBuilder(getApplicationContext(),
+                        AppDatabase.class, "flashcard-database").build();
+
+                if (db.flashcardDao().loadAll().size() == 0) {
+                    db.flashcardDao().insertAll(new Flashcard("Who is the 44th president of the United States", "Barack Obama"));
+                } else {
+                    Log.i("Caren", (db.flashcardDao().loadAll().get(0).getQuestion()));
+                }
             }
         });
     }
