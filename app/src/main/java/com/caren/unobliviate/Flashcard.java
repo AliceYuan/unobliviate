@@ -6,13 +6,10 @@ import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import java.util.UUID;
-
 @Entity
 public class Flashcard {
 
     Flashcard(String question, String answer) {
-        uid = UUID.randomUUID().toString();
         this.question = question;
         this.answer = answer;
     }
@@ -27,8 +24,6 @@ public class Flashcard {
 
     @PrimaryKey
     @NonNull
-    private String uid;
-
     @ColumnInfo(name = "question")
     private String question;
 
@@ -42,14 +37,6 @@ public class Flashcard {
     @Nullable
     @ColumnInfo(name = "wrong_answer_2")
     private String wrongAnswer2;
-
-    public String getUid() {
-        return uid;
-    }
-
-    public void setUid(String uid) {
-        this.uid = uid;
-    }
 
     public String getQuestion() {
         return question;

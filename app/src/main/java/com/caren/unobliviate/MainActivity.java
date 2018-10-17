@@ -36,20 +36,6 @@ public class MainActivity extends AppCompatActivity {
                 MainActivity.this.startActivityForResult(myIntent, ADD_CARD_REQUEST_CODE);
             }
         });
-
-        AsyncTask.execute(new Runnable() {
-            @Override
-            public void run() {
-                AppDatabase db = Room.databaseBuilder(getApplicationContext(),
-                        AppDatabase.class, "flashcard-database").build();
-
-                if (db.flashcardDao().loadAll().size() == 0) {
-                    db.flashcardDao().insertAll(new Flashcard("Who is the 44th president of the United States", "Barack Obama"));
-                } else {
-                    Log.i("Caren", (db.flashcardDao().loadAll().get(0).getQuestion()));
-                }
-            }
-        });
     }
 
     @Override
