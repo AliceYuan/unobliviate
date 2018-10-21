@@ -8,11 +8,14 @@ import android.view.View;
 import android.widget.EditText;
 
 public class AddCardActivity extends AppCompatActivity {
+    FlashcardDatabase flashcardDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_card);
+
+        flashcardDatabase = new FlashcardDatabase(this);
 
         findViewById(R.id.cancelBtn).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -26,9 +29,15 @@ public class AddCardActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent data = new Intent();
                 // Pass relevant data back as a result
-                data.putExtra("question", ((EditText) findViewById(R.id.questionTextField)).getText().toString());
-                data.putExtra("answer", ((EditText) findViewById(R.id.answerTextField)).getText().toString());
+                String question = ((EditText) findViewById(R.id.questionTextField)).getText().toString();
+                String answer = ((EditText) findViewById(R.id.answerTextField)).getText().toString();
+                data.putExtra("question", question);
+                data.putExtra("answer", answer);
                 setResult(RESULT_OK, data); // set result code and bundle data for response
+
+                // save the values in the database
+                flashcardDatabase.insertCard(new Flashcard(question, answer));
+
                 finish(); // closes the activity, pass data to parent
             }
         });
