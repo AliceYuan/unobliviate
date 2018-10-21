@@ -26,8 +26,13 @@ public class FlashcardDatabase {
         db.flashcardDao().insertAll(flashcard);
     }
 
-    public void deleteCard(Flashcard flashcard) {
-        db.flashcardDao().delete(flashcard);
+    public void deleteCard(String flashcardQuestion) {
+        List<Flashcard> allCards = db.flashcardDao().getAll();
+        for (Flashcard f : allCards) {
+            if (f.getQuestion().equals(flashcardQuestion)) {
+                db.flashcardDao().delete(f);
+            }
+        }
     }
 
     public void updateCard(Flashcard flashcard) {

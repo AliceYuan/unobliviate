@@ -32,7 +32,13 @@
         android:layout_margin="10dp"
         android:src="@drawable/next_icon" />
 
-
+    <ImageView
+        android:id="@+id/delete"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/trash_icon"
+        android:layout_below="@id/flashcard_question"
+        android:layout_centerHorizontal="true"/>
 
     <ImageView
         android:id="@+id/addBtn"

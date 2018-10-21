@@ -60,21 +60,55 @@ public class MainActivity extends AppCompatActivity {
                 questionSideView.setVisibility(View.VISIBLE);
                 findViewById(R.id.flashcard_answer).setVisibility(View.INVISIBLE);
 
+                // advance our pointer index so we can show the next card
+                currentCardDisplayedIndex++;
+
                 // make sure we don't get an IndexOutOfBoundsError
-                if (nextCardNumberToDisplay >= allFlashcards.size()) {
-                    nextCardNumberToDisplay = 0;
+                if (currentCardDisplayedIndex > allFlashcards.size() - 1) {
+                    currentCardDisplayedIndex = 0;
                 }
 
-                ((TextView) findViewById(R.id.flashcard_question)).setText(allFlashcards.get(nextCardNumberToDisplay).getQuestion());
-                ((TextView) findViewById(R.id.flashcard_answer)).setText(allFlashcards.get(nextCardNumberToDisplay).getAnswer());
+                ((TextView) findViewById(R.id.flashcard_question)).setText(allFlashcards.get(currentCardDisplayedIndex).getQuestion());
+                ((TextView) findViewById(R.id.flashcard_answer)).setText(allFlashcards.get(currentCardDisplayedIndex).getAnswer());
 
-                // advance our pointer index so we can show the next card when the button is clicked again
-                nextCardNumberToDisplay++;
+            }
+        });
+
+        findViewById(R.id.delete).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // make sure we show the question side of the card
+                questionSideView.setVisibility(View.VISIBLE);
+                findViewById(R.id.flashcard_answer).setVisibility(View.INVISIBLE);
+
+                flashcardDatabase.deleteCard(((TextView) findViewById(R.id.flashcard_question)).getText().toString());
+                allFlashcards = flashcardDatabase.getAllCards(); // update our list of cards
+
+                getAndSetCardNumberToDisplayAfterDeletion();
+
+                // show the last card shown
+                if (allFlashcards.size() > 0) {
+                    Flashcard cardToDisplay = allFlashcards.get(currentCardDisplayedIndex);
+                    ((TextView) findViewById(R.id.flashcard_question)).setText(cardToDisplay.getQuestion());
+                    ((TextView) findViewById(R.id.flashcard_answer)).setText(cardToDisplay.getAnswer());
+                } else {
+                    // empty state??
+                }
             }
         });
     }
 
-    int nextCardNumberToDisplay = 1;
+    public int getAndSetCardNumberToDisplayAfterDeletion() {
+        if (currentCardDisplayedIndex == 0) { // we deleted the first card in the set
+            // do nothing! we still want to display the first card in the set
+        } else {
+            currentCardDisplayedIndex--; // we want to show the previous card in the set now
+        }
+
+        return currentCardDisplayedIndex;
+    }
+
+    int currentCardDisplayedIndex = 0;
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -86,7 +120,7 @@ public class MainActivity extends AppCompatActivity {
             ((TextView) findViewById(R.id.flashcard_answer)).setText(answer);
 
             allFlashcards = flashcardDatabase.getAllCards();
-            nextCardNumberToDisplay = allFlashcards.size();
+            currentCardDisplayedIndex = allFlashcards.size() - 1;
 
         }
     }
