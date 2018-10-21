@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import java.util.List;
+import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -68,8 +69,10 @@ public class MainActivity extends AppCompatActivity {
                     currentCardDisplayedIndex = 0;
                 }
 
-                ((TextView) findViewById(R.id.flashcard_question)).setText(allFlashcards.get(currentCardDisplayedIndex).getQuestion());
-                ((TextView) findViewById(R.id.flashcard_answer)).setText(allFlashcards.get(currentCardDisplayedIndex).getAnswer());
+                int randomCardToShowIndex = getRandomNumber(0, allFlashcards.size() - 1);
+
+                ((TextView) findViewById(R.id.flashcard_question)).setText(allFlashcards.get(randomCardToShowIndex).getQuestion());
+                ((TextView) findViewById(R.id.flashcard_answer)).setText(allFlashcards.get(randomCardToShowIndex).getAnswer());
 
             }
         });
@@ -96,6 +99,11 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    public int getRandomNumber(int minNumber, int maxNumber) {
+        Random rand = new Random();
+        return rand.nextInt((maxNumber - minNumber) + 1) + minNumber;
     }
 
     public int getAndSetCardNumberToDisplayAfterDeletion() {
