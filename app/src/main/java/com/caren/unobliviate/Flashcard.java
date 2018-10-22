@@ -2,6 +2,7 @@ package com.caren.unobliviate;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -9,18 +10,18 @@ import android.support.annotation.Nullable;
 @Entity
 public class Flashcard {
 
+    @Ignore
     Flashcard(String question, String answer) {
         this.question = question;
         this.answer = answer;
     }
 
-//    Flashcard(String question, String answer, String wrongAnswer1, String wrongAnswer2) {
-//        uid = UUID.randomUUID().clockSequence();
-//        this.question = question;
-//        this.answer = answer;
-//        this.wrongAnswer1 = wrongAnswer1;
-//        this.wrongAnswer2 = wrongAnswer2;
-//    }
+    Flashcard(String question, String answer, String wrongAnswer1, String wrongAnswer2) {
+        this.question = question;
+        this.answer = answer;
+        this.wrongAnswer1 = wrongAnswer1;
+        this.wrongAnswer2 = wrongAnswer2;
+    }
 
     @PrimaryKey
     @NonNull

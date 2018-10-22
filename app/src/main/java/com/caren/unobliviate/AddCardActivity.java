@@ -37,7 +37,7 @@ public class AddCardActivity extends AppCompatActivity {
 
                 // save the values in the database
                 flashcardDatabase.insertCard(new Flashcard(question, answer));
-
+                
                 finish(); // closes the activity, pass data to parent
             }
         });
