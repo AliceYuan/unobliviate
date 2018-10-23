@@ -2,9 +2,6 @@ package com.caren.unobliviate;
 
 import android.arch.persistence.room.Room;
 import android.content.Context;
-import android.os.AsyncTask;
-import android.util.Log;
-
 import java.util.List;
 
 public class FlashcardDatabase {

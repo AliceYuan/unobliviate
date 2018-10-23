@@ -17,7 +17,6 @@ public class MainActivity extends AppCompatActivity {
     private View questionSideView;
 
     FlashcardDatabase flashcardDatabase;
-
     List<Flashcard> allFlashcards;
 
     @Override
@@ -84,6 +83,8 @@ public class MainActivity extends AppCompatActivity {
 
             ((TextView) findViewById(R.id.flashcard_question)).setText(question);
             ((TextView) findViewById(R.id.flashcard_answer)).setText(answer);
+
+            flashcardDatabase.insertCard(new Flashcard(question, answer));
 
             allFlashcards = flashcardDatabase.getAllCards();
             nextCardNumberToDisplay = allFlashcards.size();

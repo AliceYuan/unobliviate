@@ -32,7 +32,15 @@ public class Flashcard {
     @ColumnInfo(name = "uuid")
     private String uuid;
 
-    @PrimaryKey
+    @NonNull
+    public String getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
+    }
+
     @NonNull
     @ColumnInfo(name = "question")
     private String question;
@@ -80,9 +88,5 @@ public class Flashcard {
 
     public void setWrongAnswer2(String wrongAnswer2) {
         this.wrongAnswer2 = wrongAnswer2;
-    }
-
-    public String getUUID() {
-        return uuid;
     }
 }
