@@ -14,9 +14,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     private static final int ADD_CARD_REQUEST_CODE = 20;
-    private static final int EDIT_CARD_REQUEST_CODE = 30;
-    private TextView questionSideView;
-    private TextView answerSideView;
+    private View questionSideView;
 
     FlashcardDatabase flashcardDatabase;
     List<Flashcard> allFlashcards;
@@ -31,7 +29,6 @@ public class MainActivity extends AppCompatActivity {
         allFlashcards = flashcardDatabase.getAllCards();
 
         questionSideView = findViewById(R.id.flashcard_question);
-        answerSideView = findViewById(R.id.flashcard_answer);
 
         questionSideView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -48,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
                 MainActivity.this.startActivityForResult(myIntent, ADD_CARD_REQUEST_CODE);
             }
         });
+
 
         if (allFlashcards != null && allFlashcards.size() > 0) {
             ((TextView) findViewById(R.id.flashcard_question)).setText(allFlashcards.get(0).getQuestion());
@@ -73,35 +71,13 @@ public class MainActivity extends AppCompatActivity {
                 nextCardNumberToDisplay++;
             }
         });
-
-        findViewById(R.id.editBtn).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, AddCardActivity.class);
-                intent.putExtra("question", questionSideView.getText().toString());
-                intent.putExtra("answer", answerSideView.getText().toString());
-                cardEditing = getCardByQuestion(questionSideView.getText().toString());
-                MainActivity.this.startActivityForResult(intent, EDIT_CARD_REQUEST_CODE);
-            }
-        });
-    }
-
-    public Flashcard getCardByQuestion(String question) {
-        for (Flashcard f : allFlashcards) {
-            if (f.getQuestion().equals(question)) {
-                return f;
-            }
-        }
-        return null;
     }
 
     int nextCardNumberToDisplay = 1;
 
-    Flashcard cardEditing;
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == ADD_CARD_REQUEST_CODE && resultCode == RESULT_OK) {
+        if (requestCode == ADD_CARD_REQUEST_CODE) {
             String question = data.getExtras().getString("question");
             String answer = data.getExtras().getString("answer");
 
@@ -113,20 +89,6 @@ public class MainActivity extends AppCompatActivity {
             allFlashcards = flashcardDatabase.getAllCards();
             nextCardNumberToDisplay = allFlashcards.size();
 
-        } else if (requestCode == EDIT_CARD_REQUEST_CODE && resultCode == RESULT_OK) {
-            String question = data.getExtras().getString("question");
-            String answer = data.getExtras().getString("answer");
-
-            ((TextView) findViewById(R.id.flashcard_question)).setText(question);
-            ((TextView) findViewById(R.id.flashcard_answer)).setText(answer);
-
-            cardEditing.setQuestion(question);
-            cardEditing.setAnswer(answer);
-
-            flashcardDatabase.updateCard(cardEditing);
-
-            allFlashcards = flashcardDatabase.getAllCards();
-            nextCardNumberToDisplay = allFlashcards.size();
         }
     }
 }
