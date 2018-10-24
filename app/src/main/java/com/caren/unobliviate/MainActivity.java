@@ -15,11 +15,14 @@ import java.util.Random;
 public class MainActivity extends AppCompatActivity {
 
     private static final int ADD_CARD_REQUEST_CODE = 20;
-    private View questionSideView;
+    private static final int EDIT_CARD_REQUEST_CODE = 30;
+    private TextView questionSideView;
 
     FlashcardDatabase flashcardDatabase;
 
     List<Flashcard> allFlashcards;
+
+    Flashcard cardEditing;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,6 +102,26 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
+        findViewById(R.id.editBtn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, AddCardActivity.class);
+                intent.putExtra("question", questionSideView.getText().toString());
+                intent.putExtra("answer", ((TextView) findViewById(R.id.flashcard_answer)).getText().toString());
+                cardEditing = getCardByQuestion(questionSideView.getText().toString());
+                MainActivity.this.startActivityForResult(intent, EDIT_CARD_REQUEST_CODE);
+            }
+        });
+    }
+
+    public Flashcard getCardByQuestion(String question) {
+        for (Flashcard f : allFlashcards) {
+            if (f.getQuestion().equals(question)) {
+                return f;
+            }
+        }
+        return null;
     }
 
     public int getRandomNumber(int minNumber, int maxNumber) {
@@ -120,16 +143,28 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == ADD_CARD_REQUEST_CODE) {
+        if (requestCode == ADD_CARD_REQUEST_CODE && resultCode == RESULT_OK) {
             String question = data.getExtras().getString("question");
             String answer = data.getExtras().getString("answer");
 
             ((TextView) findViewById(R.id.flashcard_question)).setText(question);
             ((TextView) findViewById(R.id.flashcard_answer)).setText(answer);
 
+            flashcardDatabase.insertCard(new Flashcard(question, answer));
+
             allFlashcards = flashcardDatabase.getAllCards();
             currentCardDisplayedIndex = allFlashcards.size() - 1;
 
+        } else if (requestCode == EDIT_CARD_REQUEST_CODE && resultCode == RESULT_OK) {
+            String question = data.getExtras().getString("question");
+            String answer = data.getExtras().getString("answer");
+            ((TextView) findViewById(R.id.flashcard_question)).setText(question);
+            ((TextView) findViewById(R.id.flashcard_answer)).setText(answer);
+            cardEditing.setQuestion(question);
+            cardEditing.setAnswer(answer);
+            flashcardDatabase.updateCard(cardEditing);
+            allFlashcards = flashcardDatabase.getAllCards();
+            currentCardDisplayedIndex = allFlashcards.size() - 1;
         }
     }
 }
