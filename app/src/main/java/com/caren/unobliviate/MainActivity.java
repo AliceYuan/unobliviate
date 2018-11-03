@@ -1,5 +1,6 @@
 package com.caren.unobliviate;
 
+import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -32,6 +33,9 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 questionSideView.setVisibility(View.INVISIBLE);
                 findViewById(R.id.flashcard_answer).setVisibility(View.VISIBLE);
+                ObjectAnimator fadeAltAnim = ObjectAnimator.ofFloat(findViewById(R.id.flashcard_answer), View.ALPHA, 0, 1);
+                fadeAltAnim.setDuration(2000);
+                fadeAltAnim.start();
             }
         });
 
