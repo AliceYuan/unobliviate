@@ -21,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
 
     private static final int ADD_CARD_REQUEST_CODE = 20;
     private View questionSideView;
+    private View answerSideView;
 
     FlashcardDatabase flashcardDatabase;
     List<Flashcard> allFlashcards;
@@ -35,13 +36,14 @@ public class MainActivity extends AppCompatActivity {
         allFlashcards = flashcardDatabase.getAllCards();
 
         questionSideView = findViewById(R.id.flashcard_question);
+        answerSideView = findViewById(R.id.flashcard_answer);
 
         questionSideView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 questionSideView.setVisibility(View.INVISIBLE);
-                findViewById(R.id.flashcard_answer).setVisibility(View.VISIBLE);
-                ObjectAnimator fadeAltAnim = ObjectAnimator.ofFloat(findViewById(R.id.flashcard_answer), View.ALPHA, 0, 1);
+                answerSideView.setVisibility(View.VISIBLE);
+                ObjectAnimator fadeAltAnim = ObjectAnimator.ofFloat(answerSideView, View.ALPHA, 0, 1);
                 fadeAltAnim.setDuration(100);
                 fadeAltAnim.start();
                 fadeAltAnim.addListener(new AnimatorListenerAdapter() {
@@ -49,7 +51,6 @@ public class MainActivity extends AppCompatActivity {
                     public void onAnimationEnd(Animator animation) {
                         ScaleAnimation scal = new ScaleAnimation(1, 2, 1, 2, Animation.RELATIVE_TO_SELF, (float) 0.5, Animation.RELATIVE_TO_SELF, (float) 0.5);
                         scal.setDuration(300);
-                        scal.setFillAfter(true);
                         scal.setAnimationListener(new Animation.AnimationListener() {
                             @Override
                             public void onAnimationStart(Animation animation) {
@@ -60,8 +61,7 @@ public class MainActivity extends AppCompatActivity {
                             public void onAnimationEnd(Animation animation) {
                                 ScaleAnimation scal = new ScaleAnimation(2, 1, 2, 1, Animation.RELATIVE_TO_SELF, (float) 0.5, Animation.RELATIVE_TO_SELF, (float) 0.5);
                                 scal.setDuration(300);
-                                scal.setFillAfter(true);
-                                findViewById(R.id.flashcard_answer).startAnimation(scal);
+                                answerSideView.startAnimation(scal);
                             }
 
                             @Override
@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
 
                             }
                         });
-                        findViewById(R.id.flashcard_answer).startAnimation(scal);
+                        answerSideView.startAnimation(scal);
                     }
                 });
             }
@@ -100,6 +100,8 @@ public class MainActivity extends AppCompatActivity {
                 rightInAnim.setAnimationListener(new Animation.AnimationListener() {
                     @Override
                     public void onAnimationStart(Animation animation) {
+                        questionSideView.setVisibility(View.VISIBLE);
+
                         // make sure we don't get an IndexOutOfBoundsError
                         if (nextCardNumberToDisplay >= allFlashcards.size()) {
                             nextCardNumberToDisplay = 0;
@@ -114,7 +116,6 @@ public class MainActivity extends AppCompatActivity {
 
                     @Override
                     public void onAnimationEnd(Animation animation) {
-                        questionSideView.setVisibility(View.VISIBLE);
 
                     }
 
@@ -126,14 +127,12 @@ public class MainActivity extends AppCompatActivity {
                 leftOutAnim.setAnimationListener(new Animation.AnimationListener() {
                     @Override
                     public void onAnimationStart(Animation animation) {
-                        findViewById(R.id.flashcard_answer).setVisibility(View.INVISIBLE);
-
+                        questionSideView.setVisibility(View.INVISIBLE);
+                        answerSideView.setVisibility(View.INVISIBLE);
                     }
 
                     @Override
                     public void onAnimationEnd(Animation animation) {
-                        questionSideView.setVisibility(View.INVISIBLE);
-                        findViewById(R.id.flashcard_answer).setVisibility(View.INVISIBLE);
                         questionSideView.startAnimation(rightInAnim);
                     }
 
