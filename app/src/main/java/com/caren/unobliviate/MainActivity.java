@@ -1,7 +1,9 @@
 package com.caren.unobliviate;
 
 import android.animation.Animator;
+import android.animation.AnimatorInflater;
 import android.animation.AnimatorListenerAdapter;
+import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.view.animation.ScaleAnimation;
 import android.widget.TextView;
 
@@ -90,20 +93,61 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.next_buton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                Animation leftOutAnim = AnimationUtils.loadAnimation(v.getContext(), R.anim.left_out);
+                final Animation rightInAnim = AnimationUtils.loadAnimation(v.getContext(), R.anim.right_in);
+
+                rightInAnim.setAnimationListener(new Animation.AnimationListener() {
+                    @Override
+                    public void onAnimationStart(Animation animation) {
+                        // make sure we don't get an IndexOutOfBoundsError
+                        if (nextCardNumberToDisplay >= allFlashcards.size()) {
+                            nextCardNumberToDisplay = 0;
+                        }
+
+                        ((TextView) findViewById(R.id.flashcard_question)).setText(allFlashcards.get(nextCardNumberToDisplay).getQuestion());
+                        ((TextView) findViewById(R.id.flashcard_answer)).setText(allFlashcards.get(nextCardNumberToDisplay).getAnswer());
+
+                        // advance our pointer index so we can show the next card when the button is clicked again
+                        nextCardNumberToDisplay++;
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animation animation) {
+                        questionSideView.setVisibility(View.VISIBLE);
+
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animation animation) {
+
+                    }
+                });
+                leftOutAnim.setAnimationListener(new Animation.AnimationListener() {
+                    @Override
+                    public void onAnimationStart(Animation animation) {
+                        findViewById(R.id.flashcard_answer).setVisibility(View.INVISIBLE);
+
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animation animation) {
+                        questionSideView.setVisibility(View.INVISIBLE);
+                        findViewById(R.id.flashcard_answer).setVisibility(View.INVISIBLE);
+                        questionSideView.startAnimation(rightInAnim);
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animation animation) {
+
+                    }
+                });
+
+                questionSideView.startAnimation(leftOutAnim);
+
                 // show questions side first whenever next button is clicked
-                questionSideView.setVisibility(View.VISIBLE);
-                findViewById(R.id.flashcard_answer).setVisibility(View.INVISIBLE);
-
-                // make sure we don't get an IndexOutOfBoundsError
-                if (nextCardNumberToDisplay >= allFlashcards.size()) {
-                    nextCardNumberToDisplay = 0;
-                }
-
-                ((TextView) findViewById(R.id.flashcard_question)).setText(allFlashcards.get(nextCardNumberToDisplay).getQuestion());
-                ((TextView) findViewById(R.id.flashcard_answer)).setText(allFlashcards.get(nextCardNumberToDisplay).getAnswer());
-
-                // advance our pointer index so we can show the next card when the button is clicked again
-                nextCardNumberToDisplay++;
+//                questionSideView.setVisibility(View.VISIBLE);
+//                findViewById(R.id.flashcard_answer).setVisibility(View.INVISIBLE);
             }
         });
     }
