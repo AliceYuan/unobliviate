@@ -1,10 +1,15 @@
 package com.caren.unobliviate;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.Animation;
+import android.view.animation.ScaleAnimation;
 import android.widget.TextView;
 
 import java.util.List;
@@ -34,8 +39,36 @@ public class MainActivity extends AppCompatActivity {
                 questionSideView.setVisibility(View.INVISIBLE);
                 findViewById(R.id.flashcard_answer).setVisibility(View.VISIBLE);
                 ObjectAnimator fadeAltAnim = ObjectAnimator.ofFloat(findViewById(R.id.flashcard_answer), View.ALPHA, 0, 1);
-                fadeAltAnim.setDuration(2000);
+                fadeAltAnim.setDuration(100);
                 fadeAltAnim.start();
+                fadeAltAnim.addListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        ScaleAnimation scal = new ScaleAnimation(1, 2, 1, 2, Animation.RELATIVE_TO_SELF, (float) 0.5, Animation.RELATIVE_TO_SELF, (float) 0.5);
+                        scal.setDuration(300);
+                        scal.setFillAfter(true);
+                        scal.setAnimationListener(new Animation.AnimationListener() {
+                            @Override
+                            public void onAnimationStart(Animation animation) {
+
+                            }
+
+                            @Override
+                            public void onAnimationEnd(Animation animation) {
+                                ScaleAnimation scal = new ScaleAnimation(2, 1, 2, 1, Animation.RELATIVE_TO_SELF, (float) 0.5, Animation.RELATIVE_TO_SELF, (float) 0.5);
+                                scal.setDuration(300);
+                                scal.setFillAfter(true);
+                                findViewById(R.id.flashcard_answer).startAnimation(scal);
+                            }
+
+                            @Override
+                            public void onAnimationRepeat(Animation animation) {
+
+                            }
+                        });
+                        findViewById(R.id.flashcard_answer).startAnimation(scal);
+                    }
+                });
             }
         });
 
