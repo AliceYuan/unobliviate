@@ -9,6 +9,7 @@
     <TextView
         android:id="@+id/flashcard_question"
         android:layout_width="match_parent"
+        android:background="@color/colorAccent"
         android:layout_height="200dp"
         android:gravity="center"
         android:text="Who is the 44th President of the United States?"
@@ -18,6 +19,7 @@
         android:id="@+id/flashcard_answer"
         android:layout_width="match_parent"
         android:layout_height="200dp"
+        android:background="@color/colorPrimary"
         android:gravity="center"
         android:text="Barack Obama"
         android:textSize="40sp"

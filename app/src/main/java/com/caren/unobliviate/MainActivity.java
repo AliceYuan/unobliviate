@@ -41,37 +41,79 @@ public class MainActivity extends AppCompatActivity {
         questionSideView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                questionSideView.setVisibility(View.INVISIBLE);
-                answerSideView.setVisibility(View.VISIBLE);
-                ObjectAnimator fadeAltAnim = ObjectAnimator.ofFloat(answerSideView, View.ALPHA, 0, 1);
-                fadeAltAnim.setDuration(100);
-                fadeAltAnim.start();
-                fadeAltAnim.addListener(new AnimatorListenerAdapter() {
+//                questionSideView.setVisibility(View.INVISIBLE);
+//                answerSideView.setVisibility(View.VISIBLE);
+
+                AnimatorSet set = new AnimatorSet();
+
+                Animator rightIn = AnimatorInflater.loadAnimator(MainActivity.this, R.animator.card_flip_right_in);
+                Animator leftOut = AnimatorInflater.loadAnimator(MainActivity.this, R.animator.card_flip_left_out);
+
+                rightIn.setTarget(questionSideView);
+                leftOut.setTarget(answerSideView);
+                set.playSequentially(rightIn, leftOut);
+//                set.setTarget(questionSideView); // set the view you want to animate
+
+                set.addListener(new Animator.AnimatorListener() {
+                    @Override
+                    public void onAnimationStart(Animator animation) {
+
+                    }
+
                     @Override
                     public void onAnimationEnd(Animator animation) {
-                        ScaleAnimation scal = new ScaleAnimation(1, 2, 1, 2, Animation.RELATIVE_TO_SELF, (float) 0.5, Animation.RELATIVE_TO_SELF, (float) 0.5);
-                        scal.setDuration(300);
-                        scal.setAnimationListener(new Animation.AnimationListener() {
-                            @Override
-                            public void onAnimationStart(Animation animation) {
+                        questionSideView.setVisibility(View.INVISIBLE);
+                        answerSideView.setVisibility(View.VISIBLE);
+                    }
 
-                            }
+                    @Override
+                    public void onAnimationCancel(Animator animation) {
 
-                            @Override
-                            public void onAnimationEnd(Animation animation) {
-                                ScaleAnimation scal = new ScaleAnimation(2, 1, 2, 1, Animation.RELATIVE_TO_SELF, (float) 0.5, Animation.RELATIVE_TO_SELF, (float) 0.5);
-                                scal.setDuration(300);
-                                answerSideView.startAnimation(scal);
-                            }
+                    }
 
-                            @Override
-                            public void onAnimationRepeat(Animation animation) {
+                    @Override
+                    public void onAnimationRepeat(Animator animation) {
 
-                            }
-                        });
-                        answerSideView.startAnimation(scal);
                     }
                 });
+                set.start();
+
+            }
+        });
+
+        findViewById(R.id.flashcard_answer).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AnimatorSet set = new AnimatorSet();
+
+                Animator leftIn = AnimatorInflater.loadAnimator(MainActivity.this, R.animator.card_flip_right_in);
+                Animator leftOut = AnimatorInflater.loadAnimator(MainActivity.this, R.animator.card_flip_right_out);
+                set.playSequentially(leftIn, leftOut);
+                set.setTarget(answerSideView); // set the view you want to animate
+
+                set.addListener(new Animator.AnimatorListener() {
+                    @Override
+                    public void onAnimationStart(Animator animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        answerSideView.setVisibility(View.INVISIBLE);
+                        questionSideView.setVisibility(View.VISIBLE);
+                    }
+
+                    @Override
+                    public void onAnimationCancel(Animator animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animator animation) {
+
+                    }
+                });
+                set.start();
             }
         });
 
