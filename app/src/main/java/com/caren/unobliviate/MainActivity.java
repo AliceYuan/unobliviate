@@ -7,6 +7,7 @@ import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
@@ -116,6 +117,8 @@ public class MainActivity extends AppCompatActivity {
 
                     @Override
                     public void onAnimationEnd(Animation animation) {
+                        findViewById(R.id.timer).setVisibility(View.VISIBLE);
+                        startTimer();
 
                     }
 
@@ -129,6 +132,7 @@ public class MainActivity extends AppCompatActivity {
                     public void onAnimationStart(Animation animation) {
                         questionSideView.setVisibility(View.INVISIBLE);
                         answerSideView.setVisibility(View.INVISIBLE);
+                        findViewById(R.id.timer).setVisibility(View.INVISIBLE);
                     }
 
                     @Override
@@ -149,6 +153,19 @@ public class MainActivity extends AppCompatActivity {
 //                findViewById(R.id.flashcard_answer).setVisibility(View.INVISIBLE);
             }
         });
+
+        countDownTimer = new CountDownTimer(16000, 1000) {
+
+            public void onTick(long millisUntilFinished) {
+                ((TextView) findViewById(R.id.timer)).setText("" + millisUntilFinished / 1000);
+            }
+
+            public void onFinish() {
+
+            }
+        };
+
+        startTimer();
     }
 
     int nextCardNumberToDisplay = 1;
@@ -168,5 +185,13 @@ public class MainActivity extends AppCompatActivity {
             nextCardNumberToDisplay = allFlashcards.size();
 
         }
+    }
+
+    CountDownTimer countDownTimer;
+
+    private void startTimer() {
+        countDownTimer.cancel();
+        countDownTimer.start();
+
     }
 }
