@@ -3,7 +3,10 @@ package com.caren.unobliviate;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
+
+import com.plattysoft.leonids.ParticleSystem;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -71,6 +74,10 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 option3View.setBackgroundColor(getResources().getColor(R.color
                         .right_answer_indication_color, null));
+
+                new ParticleSystem(MainActivity.this, 100, R.drawable.confetti_pink, 3000)
+                        .setSpeedRange(0.2f, 0.5f)
+                        .oneShot(option3View, 100);
             }
         });
 
