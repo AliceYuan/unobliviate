@@ -6,6 +6,7 @@ import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
@@ -35,39 +36,10 @@ public class MainActivity extends AppCompatActivity {
         questionSideView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                questionSideView.setVisibility(View.INVISIBLE);
-//                findViewById(R.id.flashcard_answer).setVisibility(View.VISIBLE);
-//                ObjectAnimator fadeAltAnim = ObjectAnimator.ofFloat(findViewById(R.id.flashcard_answer), View.ALPHA, 0, 1);
-//                fadeAltAnim.setDuration(2000);
-//                fadeAltAnim.start();
-//                final ObjectAnimator oa1 = ObjectAnimator.ofFloat(questionSideView, "scaleX", 1f, 0f);
-//                final ObjectAnimator oa2 = ObjectAnimator.ofFloat(findViewById(R.id.flashcard_answer), "scaleX", 0f, 1f);
-//                oa1.setInterpolator(new DecelerateInterpolator());
-//                oa2.setInterpolator(new AccelerateDecelerateInterpolator());
-//                oa2.addListener(new AnimatorListenerAdapter() {
-//                    @Override
-//                    public void onAnimationEnd(Animator animation) {
-//                        super.onAnimationEnd(animation);
-//                        findViewById(R.id.flashcard_answer).setVisibility(View.VISIBLE);
-//                    }
-//                });
-//                oa1.addListener(new AnimatorListenerAdapter() {
-//                    @Override
-//                    public void onAnimationEnd(Animator animation) {
-//                        super.onAnimationEnd(animation);
-//                        questionSideView.setVisibility(View.INVISIBLE);
-//                        oa2.start();
-//                        findViewById(R.id.flashcard_answer).setVisibility(View.VISIBLE);
-//
-//                    }
-//                });
-//                oa1.start();
+                questionSideView.setCameraDistance(1000);
+                findViewById(R.id.flashcard_answer).setCameraDistance(1000);
 
-                float scale = getApplicationContext().getResources().getDisplayMetrics().density;
-                questionSideView.setCameraDistance(8000 * scale);
-                findViewById(R.id.flashcard_answer).setCameraDistance(8000 * scale);
-
-                questionSideView.animate().withLayer()
+                questionSideView.animate()
                         .rotationY(90)
                         .setDuration(200)
                         .withEndAction(
@@ -78,13 +50,30 @@ public class MainActivity extends AppCompatActivity {
                                         findViewById(R.id.flashcard_answer).setVisibility(View.VISIBLE);
                                         // second quarter turn
                                         findViewById(R.id.flashcard_answer).setRotationY(-90);
-                                        findViewById(R.id.flashcard_answer).animate().withLayer()
+                                        findViewById(R.id.flashcard_answer).animate()
                                                 .rotationY(0)
                                                 .setDuration(200)
                                                 .start();
                                     }
                                 }
                         ).start();
+
+//                final ObjectAnimator oa1 = ObjectAnimator.ofFloat(findViewById(R.id.flashcard_question), "scaleX", 1f, 0f);
+//                final ObjectAnimator oa2 = ObjectAnimator.ofFloat(findViewById(R.id.flashcard_answer), "scaleX", 0f, 1f);
+//                oa1.addListener(new AnimatorListenerAdapter() {
+//                    @Override
+//                    public void onAnimationEnd(Animator animation) {
+//                        super.onAnimationEnd(animation);
+////                        imageView.setImageResource(R.drawable.frontSide);
+//                        findViewById(R.id.flashcard_question).setVisibility(View.INVISIBLE);
+//                        findViewById(R.id.flashcard_answer).setVisibility(View.VISIBLE);
+//                        oa2.start();
+//                    }
+//                });
+//
+//                oa1.setDuration(250);
+//                oa2.setDuration(250);
+//                oa1.start();
             }
         });
 
