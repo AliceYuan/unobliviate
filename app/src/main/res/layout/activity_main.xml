@@ -24,7 +24,7 @@
         android:visibility="gone" />
 
     <ImageView
-        android:id="@+id/next_buton"
+        android:id="@+id/next_button"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_alignParentRight="true"

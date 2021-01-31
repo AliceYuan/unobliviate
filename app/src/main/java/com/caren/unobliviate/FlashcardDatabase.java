@@ -1,9 +1,8 @@
 package com.caren.unobliviate;
 
-import android.arch.persistence.room.Room;
 import android.content.Context;
-import android.os.AsyncTask;
-import android.util.Log;
+
+import androidx.room.Room;
 
 import java.util.List;
 
@@ -37,5 +36,11 @@ public class FlashcardDatabase {
 
     public void updateCard(Flashcard flashcard) {
         db.flashcardDao().update(flashcard);
+    }
+
+    public void deleteAll() {
+        for (Flashcard f : db.flashcardDao().getAll()) {
+            db.flashcardDao().delete(f);
+        }
     }
 }

@@ -1,16 +1,14 @@
 package com.caren.unobliviate;
 
-import android.arch.persistence.room.Room;
 import android.content.Intent;
-import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
 import java.util.List;
 import java.util.Random;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -57,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
             ((TextView) findViewById(R.id.flashcard_answer)).setText(allFlashcards.get(0).getAnswer());
         }
 
-        findViewById(R.id.next_buton).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.next_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // show questions side first whenever next button is clicked
@@ -143,6 +141,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == ADD_CARD_REQUEST_CODE && resultCode == RESULT_OK) {
             String question = data.getExtras().getString("question");
             String answer = data.getExtras().getString("answer");
