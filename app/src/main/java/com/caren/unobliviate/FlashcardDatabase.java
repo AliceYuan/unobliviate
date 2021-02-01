@@ -17,6 +17,12 @@ public class FlashcardDatabase {
                 .build();
     }
 
+    public void initFirstCard() {
+        if (db.flashcardDao().getAll().isEmpty()) {
+            insertCard(new Flashcard("Who is the 44th President of the United States", "Barack Obama"));
+        }
+    }
+
     public List<Flashcard> getAllCards() {
         return db.flashcardDao().getAll();
     }

@@ -15,6 +15,7 @@ public class MainActivity extends AppCompatActivity {
     private static final int ADD_CARD_REQUEST_CODE = 20;
     private static final int EDIT_CARD_REQUEST_CODE = 30;
     private TextView questionSideView;
+    private TextView answerSideView;
 
     FlashcardDatabase flashcardDatabase;
 
@@ -28,18 +29,15 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         flashcardDatabase = new FlashcardDatabase(this);
+        flashcardDatabase.initFirstCard();
 
         allFlashcards = flashcardDatabase.getAllCards();
 
         questionSideView = findViewById(R.id.flashcard_question);
+        answerSideView = findViewById(R.id.flashcard_answer);
 
-        questionSideView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                questionSideView.setVisibility(View.INVISIBLE);
-                findViewById(R.id.flashcard_answer).setVisibility(View.VISIBLE);
-            }
-        });
+        questionSideView.setOnClickListener(v -> toggleCardVisibility(questionSideView.getVisibility() == View.INVISIBLE));
+        answerSideView.setOnClickListener(v -> toggleCardVisibility(questionSideView.getVisibility() == View.INVISIBLE));
 
         findViewById(R.id.addBtn).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -53,6 +51,11 @@ public class MainActivity extends AppCompatActivity {
         if (allFlashcards != null && allFlashcards.size() > 0) {
             ((TextView) findViewById(R.id.flashcard_question)).setText(allFlashcards.get(0).getQuestion());
             ((TextView) findViewById(R.id.flashcard_answer)).setText(allFlashcards.get(0).getAnswer());
+        }
+        if (allFlashcards != null && allFlashcards.size() > 1) {
+            findViewById(R.id.next_button).setVisibility(View.VISIBLE);
+        } else {
+            findViewById(R.id.next_button).setVisibility(View.GONE);
         }
 
         findViewById(R.id.next_button).setOnClickListener(new View.OnClickListener() {
@@ -153,6 +156,7 @@ public class MainActivity extends AppCompatActivity {
 
             allFlashcards = flashcardDatabase.getAllCards();
             currentCardDisplayedIndex = allFlashcards.size() - 1;
+            toggleCardVisibility(true);
 
         } else if (requestCode == EDIT_CARD_REQUEST_CODE && resultCode == RESULT_OK) {
             String question = data.getExtras().getString("question");
@@ -164,6 +168,17 @@ public class MainActivity extends AppCompatActivity {
             flashcardDatabase.updateCard(cardEditing);
             allFlashcards = flashcardDatabase.getAllCards();
             currentCardDisplayedIndex = allFlashcards.size() - 1;
+            toggleCardVisibility(true);
+        }
+    }
+
+    private void toggleCardVisibility(boolean showQuestion) {
+        if (showQuestion) {
+            ((TextView) findViewById(R.id.flashcard_question)).setVisibility(View.VISIBLE);
+            ((TextView) findViewById(R.id.flashcard_answer)).setVisibility(View.INVISIBLE);
+        } else {
+            ((TextView) findViewById(R.id.flashcard_question)).setVisibility(View.INVISIBLE);
+            ((TextView) findViewById(R.id.flashcard_answer)).setVisibility(View.VISIBLE);
         }
     }
 }
